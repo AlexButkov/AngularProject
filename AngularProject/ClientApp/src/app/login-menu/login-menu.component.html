@@ -1,0 +1,13 @@
+<div class="navbar-nav" *ngIf="isAuthenticated | async">
+  <p class="nav-item text-dark">{{ userName | async }}</p>
+  <ul>
+    <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]='["/logout"]' [state]='{ local: true }' title="Logout">Logout</a>
+    </li>
+  </ul>
+</div>
+<ul class="navbar-nav" *ngIf="!(isAuthenticated | async)">
+  <li class="nav-item">
+      <a class="nav-link text-dark" [routerLink]='["/login"]'>Login</a>
+  </li>
+</ul>
