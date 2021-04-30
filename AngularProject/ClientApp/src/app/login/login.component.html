@@ -1,0 +1,12 @@
+<section class="d-flex justify-content-center">
+  <div class="mw-400">
+    <div class="form-group">
+      <label for="selected-user">Choose an account to log in.</label>
+      <select class="form-control" [(ngModel)]="selectedUser" id="selected-user">
+        <option *ngFor="let user of users">{{ user }}</option>
+      </select>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="onClick()">Log in</button>
+  </div>
+</section>
+
