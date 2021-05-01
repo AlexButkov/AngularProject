@@ -1,3 +1,4 @@
+import { LoadingTemplateService } from './loading-template.service';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -15,32 +16,33 @@ export class AccountManagerService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private loading: LoadingTemplateService,
     @Inject('BASE_URL') private baseUrl: string
-  )
-  {
-    this.userCheck();
-  }
+  ) { }
 
   async userCheck(): Promise<void> {
-    let result: LoginResult;
+    this.loading.turnOn();
 
+    let result: LoginResult;
     try {
       result = await this.http.get<LoginResult>(`${this.baseUrl}account/user`).toPromise();
     } catch (e) {
       console.error(e);
     }
 
-    if (result.error) {
+    if (!result || result.error) {
+      this.loading.turnOff();
       return;
     }
 
     this.isSignedIn = true;
     this.userName = result.userName;
+
+    this.loading.turnOff();
   }
 
   async getDemoUsers(): Promise<string[]> {
     let result: string[];
-
     try {
       result = await this.http.get<string[]>(`${this.baseUrl}account/demo`).toPromise();
     } catch (e) {
@@ -50,22 +52,30 @@ export class AccountManagerService {
   }
 
   async logIn(selectedUser: string, isRedirected: boolean = true): Promise<void> {
-    let result: LoginResult;
+    this.loading.turnOn();
 
+    let result: LoginResult;
     try {
-      result = await this.http.get<LoginResult>(`${this.baseUrl}account/login?user=${selectedUser}&returnUrl=${this.returnUrl}`).toPromise();
+      result = await this.http.get<LoginResult>(`${this.baseUrl}account/login?user=${selectedUser}`).toPromise();
     } catch (e) {
       console.error(e);
     }
 
+    if (!result) {
+      this.loading.turnOff();
+      return;
+    }
+
     if (result.error) {
       window.alert(result.error);
+      this.loading.turnOff();
       return;
     }
 
     this.isSignedIn = true;
     this.userName = result.userName;
 
+    this.loading.turnOff();
     if (isRedirected) {
       await this.navigateToReturnUrl();
     }
@@ -73,11 +83,14 @@ export class AccountManagerService {
 
   async logOut(): Promise<void> {
     let result: BaseResult;
-
     try {
       result = await this.http.get<BaseResult>(`${this.baseUrl}account/logout`).toPromise();
     } catch (e) {
       console.error(e);
+    }
+
+    if (!result) {
+      return;
     }
 
     if (result.error) {

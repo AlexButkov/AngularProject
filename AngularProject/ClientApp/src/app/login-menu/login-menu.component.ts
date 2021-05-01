@@ -9,7 +9,7 @@ import { AccountManagerService } from '../services/account-manager.service';
 export class LoginMenuComponent implements OnInit {
 
   constructor(
-    private account: AccountManagerService
+    public account: AccountManagerService
   ) { }
 
   ngOnInit() {

@@ -14,3 +14,11 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.spinner-border {
+  width: 70px;
+  height: 70px;
+  color: #aaa;
+}
+
+

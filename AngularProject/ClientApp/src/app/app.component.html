@@ -1,6 +1,9 @@
 <body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
+  <app-loading *ngIf="loading.isActive; else mainTemplate"></app-loading>
+  <ng-template #mainTemplate>
+    <app-nav-menu></app-nav-menu>
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-template>
 </body>
