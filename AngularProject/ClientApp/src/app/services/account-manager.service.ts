@@ -11,7 +11,8 @@ export class AccountManagerService {
   isSignedIn: boolean;
   userName: string;
 
-  private returnUrl = '/';
+  private homeUrl = '/';
+  private loginUrl = '/login';
 
   constructor(
     private http: HttpClient,
@@ -77,7 +78,7 @@ export class AccountManagerService {
 
     this.loading.turnOff();
     if (isRedirected) {
-      await this.navigateToReturnUrl();
+      await this.navigateToHomeUrl();
     }
   }
 
@@ -101,11 +102,17 @@ export class AccountManagerService {
     this.isSignedIn = false;
     this.userName = null;
 
-    await this.navigateToReturnUrl();
+    await this.navigateToHomeUrl();
   }
 
-  private async navigateToReturnUrl() {
-    await this.router.navigateByUrl(this.returnUrl, {
+  async navigateToLoginUrl() {
+    await this.router.navigateByUrl(this.loginUrl, {
+      replaceUrl: true
+    });
+  }
+
+  private async navigateToHomeUrl() {
+    await this.router.navigateByUrl(this.homeUrl, {
       replaceUrl: true
     });
   }
