@@ -52,7 +52,7 @@ export class AccountManagerService {
     return result;
   }
 
-  async logIn(selectedUser: string, isRedirected: boolean = true): Promise<void> {
+  async logIn(selectedUser: string, isRedirected: boolean = true): Promise<boolean> {
     this.loading.turnOn();
 
     let result: LoginResult;
@@ -64,13 +64,13 @@ export class AccountManagerService {
 
     if (!result) {
       this.loading.turnOff();
-      return;
+      return false;
     }
 
     if (result.error) {
       window.alert(result.error);
       this.loading.turnOff();
-      return;
+      return false;
     }
 
     this.isSignedIn = true;
@@ -80,6 +80,7 @@ export class AccountManagerService {
     if (isRedirected) {
       await this.navigateToHomeUrl();
     }
+    return true;
   }
 
   async logOut(): Promise<void> {

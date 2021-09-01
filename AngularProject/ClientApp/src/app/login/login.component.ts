@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import { AccountManagerService } from '../services/account-manager.service';
+import { LoadingTemplateService } from '../services/loading-template.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,9 @@ export class LoginComponent implements OnInit {
   public selectedUser: string;
 
   constructor(
-    private account: AccountManagerService
+    public loading: LoadingTemplateService,
+    private account: AccountManagerService,
+    private dialogRef: MatDialogRef<LoginComponent>
   ) { }
 
   async ngOnInit() {
@@ -21,6 +25,9 @@ export class LoginComponent implements OnInit {
   }
 
   async onClick() {
-    await this.account.logIn(this.selectedUser);
+    let loginResult = await this.account.logIn(this.selectedUser);
+    if (loginResult) {
+      this.dialogRef.close();
+    }
   }
 }
