@@ -14,10 +14,19 @@ namespace AngularProject.Controllers.Account
     [ApiController]
     public class DemoController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public DemoController(UserManager<ApplicationUser> userManager)
         {
-            var result = StaticDemoData.UsersDemoInfo.Keys.ToArray();
+            _userManager = userManager;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<string>> Get()
+        {
+            await StaticDemoData.CheckUsers(_userManager);
+
+            var result = StaticDemoData.DemoUsers.Select(x => x.Name).ToArray();
             return result;
         }
     }

@@ -24,7 +24,7 @@ namespace AngularProject.Controllers.Account
         [HttpGet]
         public async Task<LoginResult> Get(string user, string password = null)
         {
-            password ??= StaticDemoData.UsersDemoInfo.GetValueOrDefault(user);
+            password ??= StaticDemoData.DemoUsers.FirstOrDefault(x => x.Name == user)?.Password;
 
             if (password == null)
                 return new LoginResult("Invalid login attempt!");
