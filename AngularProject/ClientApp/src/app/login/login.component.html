@@ -1,6 +1,6 @@
 <section class="d-flex justify-content-center">
   <div class="mw-400">
-    <app-loading *ngIf="loading.isActive; else loginTemplate" [expanded]="false"></app-loading>
+    <app-loading *ngIf="loading.isActive || !users; else loginTemplate" [expanded]="false"></app-loading>
     <ng-template #loginTemplate>
       <div class="form-group">
         <label for="selected-user">Choose an account to log in.</label>

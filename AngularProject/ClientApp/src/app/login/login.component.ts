@@ -20,8 +20,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.users = await this.account.getDemoUsers();
-    this.selectedUser = this.users.length ? this.users[0] : '';
+    await this.initUsers();
   }
 
   async onClick() {
@@ -29,5 +28,10 @@ export class LoginComponent implements OnInit {
     if (loginResult) {
       this.dialogRef.close();
     }
+  }
+
+  private async initUsers() {
+    this.users = await this.account.getDemoUsers();
+    this.selectedUser = this.users.length ? this.users[0] : '';
   }
 }

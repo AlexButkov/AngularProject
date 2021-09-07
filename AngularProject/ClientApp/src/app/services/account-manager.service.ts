@@ -31,7 +31,7 @@ export class AccountManagerService {
       console.error(e);
     }
 
-    if (!result || result.error) {
+    if (result.error) {
       this.loading.turnOff();
       return;
     }
@@ -60,11 +60,6 @@ export class AccountManagerService {
       result = await this.http.get<LoginResult>(`${this.baseUrl}account/login?user=${selectedUser}`).toPromise();
     } catch (e) {
       console.error(e);
-    }
-
-    if (!result) {
-      this.loading.turnOff();
-      return false;
     }
 
     if (result.error) {

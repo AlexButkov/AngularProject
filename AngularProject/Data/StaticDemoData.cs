@@ -10,8 +10,7 @@ namespace AngularProject.Data
         public static readonly DemoUser[] DemoUsers = new DemoUser[]
         {
             new DemoUser("user1", "&Us001", "user1@example.com"),
-            new DemoUser("user2", "&Us002", "user2@example.com"),
-            new DemoUser("admin", "&Ad000", "admin@example.com")
+            new DemoUser("user2", "&Us002", "user2@example.com")
         };
 
         public static async Task CheckUsers(UserManager<ApplicationUser> userManager)
